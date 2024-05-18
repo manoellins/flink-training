@@ -99,7 +99,7 @@ public class LongRidesExercise {
     @VisibleForTesting
     public static class AlertFunction extends KeyedProcessFunction<Long, TaxiRide, Long> {
 
-        private ValueState<TaxiRide> rideStatus;
+        private transient ValueState<TaxiRide> rideStatus;
 
         @Override
         public void open(Configuration config)  {
@@ -153,7 +153,7 @@ public class LongRidesExercise {
                     > 0;
         }
 
-        private long checkTimerTime(TaxiRide ride) throws RuntimeException {
+        private long checkTimerTime(TaxiRide ride)  {
             if (ride.isStart) {
                 return ride.eventTime.plusSeconds(120 * 60).toEpochMilli();
             } else {
